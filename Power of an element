@@ -1,0 +1,37 @@
+#include <stdio.h>
+int DAC_Power(int,int);
+int main()
+{
+    int a,n,Solution;
+    printf("Enter no.:");
+    scanf("%d",&a);
+    printf("Enter the power:");
+    scanf("%d",&n);
+    Solution=DAC_Power(a,n);
+    printf("Solution=%d",Solution);
+    return 0;
+}
+DAC_Power(a,n)
+{
+     int mid,b;
+    if(n==1)        //T(n)=O(1)
+    return a;
+    else if(n%2==0)
+    {
+     mid=floor(n/2);   //DIVIDE--Time Complexity=O(1)
+        b=DAC_Power(a,mid);//CONQUER--T(n/2)
+        return(b*b);//COMBINE--Time Complexity=O(1)
+    }
+    else
+    {
+        mid=floor(n/2);//DIVIDE--Time Complexity=O(1)
+        b=DAC_Power(a,mid);//CONQUER--T(n/2)
+        return(b*b*b);//COMBINE--Time Complexity=O(1)
+    }
+}
+/* Recurrence Relation of DAC_Power() for Time
+   T(n)=O(1),n=1
+   T(n)=O(1)+T(n/2)+O(1),n>1
+      Divide+Conquer+Combine
+*/
+/*By using masters theorem,T(n)=O(logn)(Every case)*/
