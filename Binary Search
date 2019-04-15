@@ -1,0 +1,50 @@
+//In Binary search algorithm
+//Input:Sorted array of n-element and element do you want to search
+//Output:Return position of x,if found else return -1
+//Indexing of array elements starts from 0. 
+#include <stdio.h>
+int DAC_BS(int[],int,int,int);
+int main()
+{
+    int n,i,a[100],x,y;
+    printf("Enter the array size(max 100):");
+    scanf("%d",&n);
+    for(i=0;i<n;i++)
+    {
+        scanf("%d",&a[i]);
+    }
+    printf("\nEnter the element Do you want to search:");
+    scanf("%d",&y);
+    x=DAC_BS(a,0,n-1,y);
+    printf("Element found at position:%d",x);
+    return 0;
+}
+int DAC_BS(int a[],int i,int j,int x)
+{
+    int mid;
+    if(i==j)       
+    {
+        if(a[i]==x)
+        return i;
+        else
+        return -1;
+    }
+    else
+    {
+        mid=(i+j)/2;// Divide--Time complexity=O(1) 
+        if(a[mid]==x)
+         return mid;
+        if(x>a[mid])
+        DAC_BS(a,mid+1,j,x);//CONQUER--T(n/2)
+        else
+        DAC_BS(a,i,mid-1,x);//CONQUER--T(n/2)
+    }
+}
+/*Recurrence Relation of DAC_BS() for Time
+  T(n)=O(1),if n=1 
+  T(n)=C+T(n/2),if n>1,Where C is the constant time
+*/
+/*By applying masters theorem, 
+  Time complexity=O(logn)(Worst case)
+  Time complexity=O(1)(Best case)
+*/
