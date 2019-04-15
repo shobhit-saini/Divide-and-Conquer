@@ -1,0 +1,70 @@
+#include <stdio.h>
+struct multi                        // we have to use structure DataType
+{                                  //variable for returning multiple
+    int max;                      //values
+    int min;
+};
+struct multi Max_Min_DAC(int[],int,int);
+int main()
+{
+    int n,i,a[100];
+    printf("Enter the array size(max 100):");
+    scanf("%d",&n);
+    for(i=0;i<n;i++)
+    {
+        scanf("%d",&a[i]);
+    }
+    struct multi minmax=Max_Min_DAC(a,0,n-1);
+    printf("Min value:%d\n",minmax.min);
+    printf("Max value:%d",minmax.max);
+    return 0;
+}
+struct multi Max_Min_DAC(int a[],int i,int j)//T(n)
+{
+    struct multi minmax,left,right;
+    if(i==j)                               //if array contains 
+    {                                      //one element
+        minmax.max=minmax.min=a[i];
+        return minmax;
+    }
+    if(i==j-1)                              //if array contain        
+    {                                       //two elements
+        if(a[i]<=a[j])
+        {
+            minmax.max=a[j];
+            minmax.min=a[i];
+            return minmax;
+        }
+        else
+        {
+            minmax.max=a[i];
+            minmax.min=a[j];
+            return minmax;
+        }
+    }
+        else
+        {
+            int mid;
+            mid=(i+j)/2;         //DIVIDE--Time complexity=O(1)
+            left=Max_Min_DAC(a,i,mid);          //CONQUER--T(n/2)
+            right=Max_Min_DAC(a,mid+1,j);      //CONQUER--T(n/2)
+            if(left.max>=right.max) //COMBINE--Time complexity=O(1)
+               minmax.max=left.max; //COMBINE--Time complexity=O(1)
+            else
+               minmax.max=right.max;//COMBINE--Time complexity=O(1)
+            if(left.min<=right.min) //COMBINE--Time complexity=O(1)
+               minmax.min=left.min; //COMBINE--Time complexity=O(1)
+            else
+               minmax.min=right.min; //COMBINE--Time complexity=O(1)
+            return minmax;   
+            
+            
+        }
+    
+}
+
+/*Recurrence Relation for Time
+  T(n)=O(1),if n=1 or n=2
+  T(n)=O(1)+2*T(n/2)+O(1),if n>2
+*/
+/*By applying masters theorem, Time complexity=O(n)(Every case because no stopping in between in the code)*/
