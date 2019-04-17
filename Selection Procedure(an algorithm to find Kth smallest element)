@@ -1,0 +1,86 @@
+//INPUT:An array of n-element and integer K
+//OUTPUT:Kth smallest element
+//m=pivot element position
+#include <stdio.h>
+int DAC_Selection_Procedure (int[], int, int, int);
+int partition (int[], int, int);
+void swap (int *, int *);
+int main ()
+{
+  int a[100], n, i, k;
+  printf ("Enter the array size(max 100):");
+  scanf ("%d", &n);
+  printf ("Enter array elements:");
+  for (i = 1; i <= n; i++)
+    {
+      scanf ("%d", &a[i]);
+    }
+  printf ("Kth smallest,Enter the value of K:");
+  scanf ("%d", &k);
+    if(k>n)
+  printf("No such element exist");
+  else
+  {
+  int x = DAC_Selection_Procedure (a, 1, n, k);
+  printf ("\n%dth smallest element is:%d", k, x);
+  }
+}
+
+int DAC_Selection_Procedure (int a[], int p, int q, int k)
+{
+  int m;
+  if (p < q)
+    {
+      m = partition (a, p, q);	//DIVIDE--Time Complexity=O(n)
+      if (m == k)
+	{
+	  return (a[m]);
+	}
+      if (k < m)
+	DAC_Selection_Procedure (a, p, m - 1, k);	//Conquer--T(m-p)
+      else
+	DAC_Selection_Procedure (a, m + 1, q, k);	//Conquer--T(q-m)
+    }
+}
+
+int partition (int a[], int p, int q)
+{
+  int x, i, j, temp;
+  x = a[p];
+  i = p;
+  for (j = p + 1; j <= q; j++)
+    {
+      if (a[j] <= x)
+	{
+	  i = i + 1;
+	  swap (&a[i], &a[j]);
+	}
+    }
+  swap (&a[p], &a[i]);
+
+
+  return (i);
+}
+
+void swap (int *i, int *j)
+{
+  int temp;
+  temp = *i;
+  *i = *j;
+  *j = temp;
+}
+
+/*Recurrence Relation of DAC_QS() for Time
+  1.T(n)=O(1),if n=1 
+  2.T(n)=O(n)+T(m-p),if n>1
+                or
+              T(q-m)
+    2.1:For Best Case:T(n)=O(n)+T(n/2)
+        By applying masters theorem, 
+        Time complexity=O(n)(Best Case)
+    2.2:For Worst Case:T(n)=O(n)+T(n-1)
+        By applying Recursive Tree Method,
+        This recurrence relation will give n level tree 
+        each of cost n
+        Time complexity=O(n^2)(Worst Case)
+*/
