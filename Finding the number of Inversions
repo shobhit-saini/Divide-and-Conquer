@@ -1,0 +1,70 @@
+//NI is the variable to hold the no. of inversions
+/*Inversion is happen when Higher index contains 
+   lower value than the lower index value*/
+#include<stdio.h>
+int DAC_No_of_Inversion(int[],int,int);
+int merge(int[],int,int,int,int);
+int a[100],NI=0;
+void main()
+{
+      int n,i;
+    printf("Enter the array size(max 100):");
+    scanf("%d",&n);
+    printf("Enter array elements:");
+    for(i=0;i<n;i++)
+    {
+        scanf("%d",&a[i]);
+    }
+    DAC_No_of_Inversion(a,0,n-1);
+    printf("No. of inversions:%d",NI);
+}
+int DAC_No_of_Inversion(int a[],int i,int j)
+{
+     int mid;
+    if(i==j)
+    return(a[i]);
+    else
+    {
+        mid=floor((i+j)/2);//DIVIDE--Time Complexity=O(1)
+        DAC_Mergesort(a,i,mid);//CONQUER--T(n/2)
+        DAC_Mergesort(a,mid+1,j);//CONQUER--T(n/2)
+        merge(a,i,mid,mid+1,j);//MERGE algorithm Time Complexity=O(n)
+    }
+}
+int merge(int a[],int i,int j,int k,int l)
+{
+   int i1=i;
+   int l2=l;
+    int b[100],m=0,q;
+      while(i<=j&&k<=l)
+      {
+      if(a[i]<=a[k])
+      {
+          b[m++]=a[i++];
+          
+      }
+      else
+      {
+          b[m++]=a[k++];
+          NI=(NI+(j-i+1));
+      }
+      }
+      while(i<=j)
+      {
+          b[m++]=a[i++];
+      }
+       while(k<=l)
+      {
+          b[m++]=a[k++];
+      }
+    
+      for(i=i1,q=0;i<=l;i++,q++)
+		a[i]=b[q];
+}
+/*Recurrence Relation of DAC_No_of_Inversion() for Time
+  T(n)=O(1),if n=1 
+  T(n)=O(1)+2*T(n/2)+O(n),if n>1
+*/
+/*By applying masters theorem, 
+  Time complexity=O(n*logn)(Every case)
+*/
